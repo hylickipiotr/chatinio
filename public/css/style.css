@@ -168,7 +168,8 @@ body {
 @media (max-width: 762px) {
   .chat {
     flex-direction: column;
-    max-height: calc(100vh - env(viewport-nav-resize);
+    max-height: 100vh;;
+    max-height: calc(var(--vh, 1vh) * 100);
     justify-content: space-between;
   }
 
@@ -206,6 +207,7 @@ body {
 
   .chat .section-messages .messages-list .message {
     margin: 0.4rem 0;
+    min-width: 80%;
   }
 
   .chat .section-messages .message-form {

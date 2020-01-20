@@ -83,6 +83,10 @@ function toggleUsersList() {
   });
 }
 
+function setCssVariale(varName, value) {
+  document.documentElement.style.setProperty(varName, value);
+}
+
 newMessageFormElement.addEventListener('submit', (event) => {
   event.preventDefault();
   const message = newMessageTextElement.value;
@@ -101,11 +105,17 @@ const widthMatch = window.matchMedia('(max-width: 762px)');
 if (widthMatch.matches) {
   toggleUsersList();
 }
-
 widthMatch.addEventListener('change', (mm) => {
   if (mm.matches) {
     toggleUsersList();
   }
+});
+
+let viewHeight = window.innerHeight * 0.01;
+setCssVariale('--vh', `${viewHeight}px`);
+window.addEventListener('resize', () => {
+  viewHeight = window.innerHeight * 0.01;
+  setCssVariale('--vh', `${viewHeight}px`);
 });
 
 socket.on('connect', () => {
