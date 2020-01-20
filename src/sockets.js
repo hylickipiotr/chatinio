@@ -25,6 +25,7 @@ function init(server) {
 
     socket.on('set-user', (user) => {
       serverState.users[socket.id] = {
+        id: socket.id,
         name: user.name,
       };
       emitUsers();

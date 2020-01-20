@@ -8,10 +8,11 @@ const localState = {
   },
 };
 
-const usersListElement = document.querySelector('#chat-users');
-const messagesListElement = document.querySelector('#chat-messages');
-const newMessageFormElement = document.querySelector('#message-form');
-const newMessageTextElement = newMessageFormElement.querySelector('.__content');
+const usersListElement = document.querySelector('.users-list');
+const messagesListElement = document.querySelector('.messages-list');
+const newMessageFormElement = document.querySelector('.message-form');
+const newMessageTextElement = newMessageFormElement.querySelector('.content');
+const userCounterElement = document.querySelector('.users-counter');
 
 
 function emitMessage(message) {
@@ -22,25 +23,44 @@ function setUser(user) {
   socket.emit('set-user', user);
 }
 
+function updateUserCount(users) {
+  userCounterElement.textContent = users.length;
+}
+
 function renderUsers(users) {
   usersListElement.innerHTML = '';
 
-  Object.values(users).forEach((user) => {
+  const usersArr = Object.values(users);
+
+  usersArr.forEach((user) => {
     const userElement = document.createElement('li');
     userElement.className = 'user';
+    if (user.id === socket.id) {
+      userElement.classList.add('curent-user');
+    }
+    userElement.dataset.userId = user.id;
     userElement.textContent = user.name;
 
     usersListElement.appendChild(userElement);
   });
+
+  updateUserCount(usersArr);
 }
 
 function renderMessage(message) {
   const messageElement = document.createElement('div');
   const date = new Date(message.timestamp).toLocaleString();
+  messageElement.className = 'message';
+  if (message.user.id === socket.id) {
+    messageElement.classList.add('curent-user');
+  }
+  messageElement.dataset.userId = message.user.id;
   messageElement.innerHTML = `
-    <h5 class="username">${message.user.name}</h5>
+    <div class="header">
+      <span class="username">${message.user.name}</span>
+      <span class="date">${date}</span>
+    </div>
     <p class="content">${message.content}</p>
-    <small class="date">${date}</small>
   `;
   messagesListElement.appendChild(messageElement);
 }
@@ -50,6 +70,14 @@ newMessageFormElement.addEventListener('submit', (event) => {
   const message = newMessageTextElement.value;
   if (!message.length) return;
   emitMessage(message);
+  newMessageTextElement.value = '';
+});
+
+newMessageTextElement.addEventListener('keydown', (event) => {
+  if ((event.ctrlKey || event.metaKey) && (event.keyCode === 13 || event.keyCode === 10)) {
+    console.log('asdasdadsa');
+    newMessageFormElement.dispatchEvent(new Event('submit'));
+  }
 });
 
 socket.on('connect', () => {
