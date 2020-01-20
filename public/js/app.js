@@ -91,11 +91,11 @@ newMessageFormElement.addEventListener('submit', (event) => {
   newMessageTextElement.value = '';
 });
 
-newMessageTextElement.addEventListener('keydown', (event) => {
-  if ((event.ctrlKey || event.metaKey) && (event.keyCode === 13 || event.keyCode === 10)) {
-    newMessageFormElement.dispatchEvent(new Event('submit'));
-  }
-});
+// newMessageTextElement.addEventListener('keydown', (event) => {
+//   if ((event.ctrlKey || event.metaKey) && (event.keyCode === 13 || event.keyCode === 10)) {
+//     newMessageFormElement.dispatchEvent(new Event('submit'));
+//   }
+// });
 
 const widthMatch = window.matchMedia('(max-width: 762px)');
 if (widthMatch.matches) {
