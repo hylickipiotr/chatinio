@@ -77,17 +77,22 @@ body {
 .chat .section-messages .messages-list {
   overflow-y: auto;
   display: flex;
-  flex-direction: column;
-  height: calc(100vh - 42px);
+  flex-flow: column nowrap;
+  max-height: calc(100vh - 42px);
   padding: 3rem 2rem 2rem 2rem;
   list-style: none;
+  overscroll-behavior-y: contain;
+  height: 100%;
+}
+
+.chat .section-messages .messages-list > :first-child {
+  margin-top: auto !important;
 }
 
 .chat .section-messages .messages-list .message {
   background-color: var(--secondary);
   display: flex;
   flex-direction: column;
-  align-self: flex-start;
   max-width: 90%;
   min-width: 60%;
   padding: .4rem .7rem;

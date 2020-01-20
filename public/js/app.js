@@ -47,22 +47,34 @@ function renderUsers(users) {
   updateUserCount(usersArr);
 }
 
+function shouldScrollMessagesToBottom() {
+  const l = messagesListElement;
+  return l.scrollHeight - l.clientHeight === l.scrollTop;
+}
+
+function scrollMessagesToBottom() {
+  messagesListElement.scrollTop = messagesListElement.scrollHeight;
+}
+
 function renderMessage(message) {
-  const messageElement = document.createElement('div');
+  const messageElement = document.createElement('li');
   const date = new Date(message.timestamp).toLocaleString();
   messageElement.className = 'message';
   if (message.user.id === socket.id) {
     messageElement.classList.add('curent-user');
   }
   messageElement.dataset.userId = message.user.id;
-  messageElement.innerHTML = `
-    <div class="header">
+  messageElement.innerHTML = `<div class="header">
       <span class="username">${message.user.name}</span>
       <span class="date">${date}</span>
     </div>
-    <p class="content">${message.content}</p>
-  `;
+    <p class="content">${message.content}</p>`;
+
+  const shouldScroll = shouldScrollMessagesToBottom();
   messagesListElement.appendChild(messageElement);
+  if (shouldScroll) {
+    scrollMessagesToBottom();
+  }
 }
 
 newMessageFormElement.addEventListener('submit', (event) => {
@@ -75,7 +87,6 @@ newMessageFormElement.addEventListener('submit', (event) => {
 
 newMessageTextElement.addEventListener('keydown', (event) => {
   if ((event.ctrlKey || event.metaKey) && (event.keyCode === 13 || event.keyCode === 10)) {
-    console.log('asdasdadsa');
     newMessageFormElement.dispatchEvent(new Event('submit'));
   }
 });
