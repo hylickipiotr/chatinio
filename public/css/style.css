@@ -168,7 +168,7 @@ body {
 @media (max-width: 762px) {
   .chat {
     flex-direction: column;
-    max-height: -webkit-fill-available;
+    max-height: calc(100vh - env(viewport-nav-resize);
     justify-content: space-between;
   }
 
