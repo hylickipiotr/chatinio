@@ -34,10 +34,11 @@ body {
 }
 
 .chat .section-users {
-  position: relative;
+  /* position: relative; */
   min-width: 320px;
   padding: 1rem 2rem 0rem 2rem;
   height: 100vh;
+  max-height: 100vh;
   overflow-y: auto;
 }
 
@@ -79,10 +80,11 @@ body {
   display: flex;
   flex-flow: column nowrap;
   max-height: calc(100vh - 42px);
-  padding: 3rem 2rem 2rem 2rem;
+  padding: 2rem 2rem 1rem 2rem;
   list-style: none;
   overscroll-behavior-y: contain;
   height: 100%;
+  margin: 0;
 }
 
 .chat .section-messages .messages-list > :first-child {
@@ -161,4 +163,53 @@ body {
   border: 0 solid transparent;
   color: var(--white);
   width: 80px;
+}
+
+@media (max-width: 762px) {
+  .chat {
+    flex-direction: column;
+    max-height: 100vh;
+    /* justify-content: space-between; */
+  }
+
+
+  .chat .section-users {
+    height: auto;
+    cursor: pointer;
+  }
+
+  .chat .section-users h2 {
+    margin-bottom: 0;
+  }
+
+  .chat .section-users .users-list {
+    display: none;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 77px + 2px);
+    margin-top: -2px;
+    padding: 1rem 1rem;
+    background-color: var(--dark);
+    overflow-y: auto;
+    z-index: 1;
+  }
+
+  .chat .section-users .users-list.show {
+    display: unset;
+  }
+
+  .chat .section-messages .messages-list {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+    max-height: calc(100vh - 77px - 42px);
+  }
+
+  .chat .section-messages .messages-list .message {
+    margin: .4rem 0;
+  }
+
+  .chat .section-messages .message-form {
+    position: static;
+  }
 }

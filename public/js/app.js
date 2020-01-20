@@ -8,12 +8,12 @@ const localState = {
   },
 };
 
+const sectionUserHeaderElement = document.querySelector('.section-users h2');
 const usersListElement = document.querySelector('.users-list');
 const messagesListElement = document.querySelector('.messages-list');
 const newMessageFormElement = document.querySelector('.message-form');
 const newMessageTextElement = newMessageFormElement.querySelector('.content');
 const userCounterElement = document.querySelector('.users-counter');
-
 
 function emitMessage(message) {
   socket.emit('chat-message', message);
@@ -77,6 +77,12 @@ function renderMessage(message) {
   }
 }
 
+function toggleUsersList() {
+  sectionUserHeaderElement.addEventListener('click', () => {
+    usersListElement.classList.toggle('show');
+  });
+}
+
 newMessageFormElement.addEventListener('submit', (event) => {
   event.preventDefault();
   const message = newMessageTextElement.value;
@@ -88,6 +94,17 @@ newMessageFormElement.addEventListener('submit', (event) => {
 newMessageTextElement.addEventListener('keydown', (event) => {
   if ((event.ctrlKey || event.metaKey) && (event.keyCode === 13 || event.keyCode === 10)) {
     newMessageFormElement.dispatchEvent(new Event('submit'));
+  }
+});
+
+const widthMatch = window.matchMedia('(max-width: 762px)');
+if (widthMatch.matches) {
+  toggleUsersList();
+}
+
+widthMatch.addEventListener('change', (mm) => {
+  if (mm.matches) {
+    toggleUsersList();
   }
 });
 
