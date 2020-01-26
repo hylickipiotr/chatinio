@@ -93,12 +93,13 @@ body {
 }
 
 .chat .section-messages .messages-list .message {
+  position: relative;
   background-color: var(--secondary);
   display: flex;
   flex-direction: column;
   align-self: flex-start;
   max-width: 90%;
-  min-width: 60%;
+  min-width: 40%;
   padding: 0.4rem 0.7rem;
   margin: 0.8rem 0;
 }
@@ -120,13 +121,17 @@ body {
 }
 
 .chat .section-messages .messages-list .message .username {
+  flex: 1;
   font-size: 1rem;
   font-weight: 600;
+  /* max-width: 50%; */
+  overflow: hidden;
 }
 
 .chat .section-messages .messages-list .message .date {
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.4);
+  margin-left: 1rem;
 }
 
 .chat .section-messages .messages-list .message.curent-user .date {
@@ -134,9 +139,18 @@ body {
 }
 
 .chat .section-messages .messages-list .message .content {
+  max-width: 100%;
   margin: 0 0 0 0;
   padding: 0.5rem 0 0.3rem 0;
   line-height: 1.4rem;
+  overflow-x: auto;
+}
+
+.chat .section-messages .messages-list .message .content * {
+  max-width: 100%;
+  height: auto;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .chat .section-messages .message-form {
@@ -207,6 +221,10 @@ body {
 
   .chat .section-messages .messages-list .message {
     margin: 0.4rem 0;
+  }
+
+  .chat .section-messages .messages-list .message .username {
+    /* max-width: 40%; */
   }
 
   .chat .section-messages .message-form {

@@ -73,8 +73,8 @@ function renderMessage({ user, timestamp, content }) {
       <span class="username">${user.name}</span>
       <span class="date">${distanceToNow(timestamp)}</span>
     </div>
-    <p class="content">${content}</p>`;
-
+    <div class="content">${content}</div>`;
+  console.log(messageElement.innerHTML);
   const shouldScroll = shouldScrollMessagesToBottom();
   messages.push(messageElement);
   messagesListElement.appendChild(messageElement);
