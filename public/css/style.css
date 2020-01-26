@@ -96,6 +96,7 @@ body {
   background-color: var(--secondary);
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
   max-width: 90%;
   min-width: 60%;
   padding: 0.4rem 0.7rem;
