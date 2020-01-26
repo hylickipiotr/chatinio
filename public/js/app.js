@@ -2,12 +2,6 @@
 /* global io */
 const socket = io();
 
-const localState = {
-  user: {
-    name: '',
-  },
-};
-
 const sectionUserHeaderElement = document.querySelector('.section-users h2');
 const usersListElement = document.querySelector('.users-list');
 const messagesListElement = document.querySelector('.messages-list');
@@ -20,6 +14,7 @@ function emitMessage(message) {
 }
 
 function setUser(user) {
+  sessionStorage.setItem('user', JSON.stringify(user));
   socket.emit('set-user', user);
 }
 
@@ -109,7 +104,10 @@ widthMatch.addEventListener('change', (mm) => {
 });
 
 socket.on('connect', () => {
-  const { user } = localState;
+  let user = JSON.parse(sessionStorage.getItem('user'));
+  if (!user) {
+    user = {};
+  }
   if (!user.name) {
     while (!user.name) {
       user.name = prompt('Enter user name').trim();
