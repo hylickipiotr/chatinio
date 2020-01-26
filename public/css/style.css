@@ -99,7 +99,7 @@ body {
   flex-direction: column;
   align-self: flex-start;
   max-width: 90%;
-  min-width: 40%;
+  min-width: 60%;
   padding: 0.4rem 0.7rem;
   margin: 0.8rem 0;
 }
@@ -124,7 +124,6 @@ body {
   flex: 1;
   font-size: 1rem;
   font-weight: 600;
-  /* max-width: 50%; */
   overflow: hidden;
 }
 
@@ -139,7 +138,6 @@ body {
 }
 
 .chat .section-messages .messages-list .message .content {
-  max-width: 100%;
   margin: 0 0 0 0;
   padding: 0.5rem 0 0.3rem 0;
   line-height: 1.4rem;
