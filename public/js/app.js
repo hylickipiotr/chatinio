@@ -1,5 +1,5 @@
 /* eslint-env browser */
-/* global io */
+/* global io dateFns */
 const socket = io();
 
 const sectionUserHeaderElement = document.querySelector('.section-users h2');
@@ -8,6 +8,15 @@ const messagesListElement = document.querySelector('.messages-list');
 const newMessageFormElement = document.querySelector('.message-form');
 const newMessageTextElement = newMessageFormElement.querySelector('.content');
 const userCounterElement = document.querySelector('.users-counter');
+
+const messages = [];
+
+function distanceToNow(timestamp) {
+  return dateFns.distanceInWordsToNow(new Date(Number(timestamp)), {
+    includeSeconds: true,
+    addSuffix: true,
+  });
+}
 
 function emitMessage(message) {
   socket.emit('chat-message', message);
@@ -51,21 +60,23 @@ function scrollMessagesToBottom() {
   messagesListElement.scrollTop = messagesListElement.scrollHeight;
 }
 
-function renderMessage(message) {
+function renderMessage({ user, timestamp, content }) {
   const messageElement = document.createElement('li');
-  const date = new Date(message.timestamp).toLocaleString();
+  messageElement.dataset.timestamp = timestamp;
   messageElement.className = 'message';
-  if (message.user.id === socket.id) {
+  messageElement.title = dateFns.format(new Date(timestamp), 'DD.MM.YYYY hh:mm:ss');
+  if (user.id === socket.id) {
     messageElement.classList.add('curent-user');
   }
-  messageElement.dataset.userId = message.user.id;
+  messageElement.dataset.userId = user.id;
   messageElement.innerHTML = `<div class="header">
-      <span class="username">${message.user.name}</span>
-      <span class="date">${date}</span>
+      <span class="username">${user.name}</span>
+      <span class="date">${distanceToNow(timestamp)}</span>
     </div>
-    <p class="content">${message.content}</p>`;
+    <p class="content">${content}</p>`;
 
   const shouldScroll = shouldScrollMessagesToBottom();
+  messages.push(messageElement);
   messagesListElement.appendChild(messageElement);
   if (shouldScroll) {
     scrollMessagesToBottom();
@@ -75,6 +86,13 @@ function renderMessage(message) {
 function toggleUsersList() {
   sectionUserHeaderElement.addEventListener('click', () => {
     usersListElement.classList.toggle('show');
+  });
+}
+
+function updateMessageDateContent() {
+  messages.forEach((message, i) => {
+    const { timestamp } = message.dataset;
+    messages[i].querySelector('.date').textContent = distanceToNow(Number(timestamp));
   });
 }
 
@@ -119,3 +137,5 @@ socket.on('connect', () => {
 socket.on('chat-users', (users) => renderUsers(users));
 
 socket.on('chat-message', (message) => renderMessage(message));
+
+setInterval(updateMessageDateContent, 1000);
